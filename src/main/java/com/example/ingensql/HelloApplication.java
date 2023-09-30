@@ -24,6 +24,10 @@ public class HelloApplication extends Application {
         // Создаем начальное окно для ввода количества полей
         VBox initialLayout = new VBox(10);
         initialLayout.setPadding(new Insets(10));
+        Label labelTable = new Label("Введите схему и таблицу в формате <schema>.<table>");
+        TextField tableNameField = new TextField();
+        Label labelCountGenInsert = new Label("Введите количество генераций");
+        TextField countInsertGenTextField = new TextField();
         Label label = new Label("Введите количество полей для инсерта:");
         TextField fieldCountTextField = new TextField();
         Button continueButton = new Button("Продолжить");
@@ -31,7 +35,9 @@ public class HelloApplication extends Application {
         continueButton.setOnAction(event -> {
             try {
                 int fieldCount = Integer.parseInt(fieldCountTextField.getText());
-                createGridPanel = new CreateGridPanel(fieldCount);
+                int insertCount = Integer.parseInt(countInsertGenTextField.getText());
+                String tableName = String.valueOf(tableNameField.getText());
+                createGridPanel = new CreateGridPanel(tableName, fieldCount, insertCount);
                 createGridPanel.initializeFieldInputScene(primaryStage);
             } catch (NumberFormatException e) {
                 // Обработка ошибки ввода некорректного числа
@@ -39,7 +45,7 @@ public class HelloApplication extends Application {
             }
         });
 
-        initialLayout.getChildren().addAll(label, fieldCountTextField, continueButton);
+        initialLayout.getChildren().addAll(labelTable, tableNameField, labelCountGenInsert, countInsertGenTextField, label, fieldCountTextField, continueButton);
         Scene initialScene = new Scene(initialLayout, 300, 200);
         primaryStage.setScene(initialScene);
         primaryStage.show();
