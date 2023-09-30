@@ -64,12 +64,18 @@ public class CreateGridPanel {
                        } else if("RANDOM_RANGE".contains(selectedGenType)){
                            TextField startIntField = new TextField();
                            TextField finishIntField = new TextField();
+                           Button button = new Button("Подтвердить");
                            gridPane.add(startIntField, columnIndexThreeColumn + 1, finalI);
                            gridPane.add(finishIntField, columnIndexThreeColumn + 2, finalI);
+                           gridPane.add(button, columnIndexThreeColumn + 3, finalI);
+                           button.setOnAction(even -> {
                            IntegerModel integerModel = new IntegerModel();
                            List<Integer> integerList = integerModel.getRandomRange(Integer.valueOf(startIntField.getText()),
                                    Integer.valueOf(finishIntField.getText()), countInsert);
                            integerMap.put(nameTextField.getText(), integerList);
+                           System.out.println(integerList.size());
+                           System.out.println(integerMap.size());
+                           });
                        }
                     });
                 } else {
@@ -99,7 +105,7 @@ public class CreateGridPanel {
         fieldInputVBox = new VBox(10, gridPane, generateButton);
         fieldInputVBox.setPadding(new Insets(10));
         ScrollPane scrollPane = new ScrollPane(fieldInputVBox);
-        Scene fieldInputScene = new Scene(scrollPane, 500, 400);
+        Scene fieldInputScene = new Scene(scrollPane, 800, 600);
         primaryStage.setScene(fieldInputScene);
     }
 
@@ -115,19 +121,14 @@ public class CreateGridPanel {
         return result;
     }
 
-    public void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     public VBox getFieldInputVBox() {
         return fieldInputVBox;
     }
 
     public int getFieldCount() {
         return fieldCount;
+    }
+
+    public CreateGridPanel() {
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ingensql;
 
+import com.example.ingensql.exeption.ErrorUtils;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +16,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    private CreateGridPanel createGridPanel;
-
+    CreateGridPanel createGridPanel = new CreateGridPanel();
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("SQL Insert Generator");
@@ -41,12 +41,12 @@ public class HelloApplication extends Application {
                 createGridPanel.initializeFieldInputScene(primaryStage);
             } catch (NumberFormatException e) {
                 // Обработка ошибки ввода некорректного числа
-                createGridPanel.showAlert("Ошибка", "Введите корректное число полей.");
+                ErrorUtils.showErrorDialog("Ошибка", "Введите корректное значение полей.");
             }
         });
 
         initialLayout.getChildren().addAll(labelTable, tableNameField, labelCountGenInsert, countInsertGenTextField, label, fieldCountTextField, continueButton);
-        Scene initialScene = new Scene(initialLayout, 300, 200);
+        Scene initialScene = new Scene(initialLayout, 800, 600);
         primaryStage.setScene(initialScene);
         primaryStage.show();
     }
@@ -54,4 +54,5 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
+
 }
