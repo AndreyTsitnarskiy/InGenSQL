@@ -3,8 +3,10 @@ package com.example.ingensql;
 import com.example.ingensql.factory.FieldValue;
 import com.example.ingensql.factory.FieldValueFactory;
 import com.example.ingensql.factory.FieldValueFactoryImpl;
+import com.example.ingensql.field_values.DoubleGenType;
 import com.example.ingensql.field_values.IntegerGenType;
 import com.example.ingensql.field_values.TypeField;
+import com.example.ingensql.model.DoubleModel;
 import com.example.ingensql.model.IntegerModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +29,7 @@ public class CreateGridPanel {
     private FieldValueFactory fieldValueFactory;
     private Set<String> columnName = new TreeSet<>();
     private Map<String, List<Integer>> integerMap = new HashMap<>();
+    private Map<String, List<Double>> doubleMap = new HashMap<>();
 
     public CreateGridPanel(int fieldCount, int countInsert, String tableName, TypeField fieldType) {
         this.fieldCount = fieldCount;
@@ -83,10 +86,38 @@ public class CreateGridPanel {
                             });
                         }
                     });
+                } else if (fieldValue instanceof DoubleModel) {
+                    DoubleModel doubleModel = new DoubleModel();
+                    ComboBox<DoubleGenType> intOptionsComboBox = new ComboBox<>();
+                    intOptionsComboBox.setItems(FXCollections.observableArrayList(DoubleGenType.values()));
+                    gridPane.add(intOptionsComboBox, columnIndex + 1, finalI);
+
+                    intOptionsComboBox.setOnAction(event1 -> {
+                        String selectedGenType = String.valueOf(intOptionsComboBox.getValue());
+                        int columnIndexThreeColumn = GridPane.getColumnIndex(intOptionsComboBox);
+                        Button buttonAction = new Button("Сформировать");
+                        if ("RANDOM".contains(selectedGenType)) {
+                            gridPane.add(buttonAction, columnIndexThreeColumn + 1, finalI);
+                            buttonAction.setOnAction(even -> {
+                                List<Double> doubleList = doubleModel.getRandom(countInsert);
+                                doubleMap.put(nameTextField.getText(), doubleList);
+                            });
+                        } else if ("RANDOM_RANGE".contains(selectedGenType)) {
+                            TextField startTextField = new TextField();
+                            TextField finishTextField = new TextField();
+                            gridPane.add(startTextField,columnIndexThreeColumn + 1, finalI);
+                            gridPane.add(finishTextField,columnIndexThreeColumn + 2, finalI);
+                            gridPane.add(buttonAction,columnIndexThreeColumn + 3, finalI);
+                            buttonAction.setOnAction(even -> {
+                                List<Double> doubleList = doubleModel.getRandomRange(startTextField.getText(), finishTextField.getText(), countInsert);
+                                doubleMap.put(nameTextField.getText(), doubleList);
+                            });
+                        }
+                    });
                 } else {
-                    // Если выбран другой тип, скрываем ComboBox для целочисленных опций
-                    getNodeByRowColumnIndex(finalI, columnIndex, gridPane);
-                }
+                        // Если выбран другой тип, скрываем ComboBox для целочисленных опций
+                        getNodeByRowColumnIndex(finalI, columnIndex, gridPane);
+                    }
                 // Другие условия для других типов полей можно добавить аналогичным образом
             });
 
