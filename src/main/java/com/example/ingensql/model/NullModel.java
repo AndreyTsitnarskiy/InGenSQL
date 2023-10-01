@@ -6,4 +6,8 @@ public class NullModel extends FieldValue {
 
     public NullModel() {
     }
+
+    public String getNull(){
+        return null;
+    }
 }

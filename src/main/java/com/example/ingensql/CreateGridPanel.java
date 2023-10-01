@@ -3,7 +3,7 @@ package com.example.ingensql;
 import com.example.ingensql.factory.FieldValue;
 import com.example.ingensql.factory.FieldValueFactory;
 import com.example.ingensql.factory.FieldValueFactoryImpl;
-import com.example.ingensql.field_values.GenType;
+import com.example.ingensql.field_values.IntegerGenType;
 import com.example.ingensql.field_values.TypeField;
 import com.example.ingensql.model.IntegerModel;
 import javafx.collections.FXCollections;
@@ -57,8 +57,8 @@ public class CreateGridPanel {
                 if (fieldValue instanceof IntegerModel) {
                     // Добавляем ComboBox для выбора целочисленных опций
                     IntegerModel integerModel = new IntegerModel();
-                    ComboBox<GenType> intOptionsComboBox = new ComboBox<>();
-                    intOptionsComboBox.setItems(FXCollections.observableArrayList(GenType.values()));
+                    ComboBox<IntegerGenType> intOptionsComboBox = new ComboBox<>();
+                    intOptionsComboBox.setItems(FXCollections.observableArrayList(IntegerGenType.values()));
                     gridPane.add(intOptionsComboBox, columnIndex + 1, finalI);
 
                     intOptionsComboBox.setOnAction(event1 -> {

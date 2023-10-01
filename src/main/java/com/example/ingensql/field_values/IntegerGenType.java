@@ -1,5 +1,5 @@
 package com.example.ingensql.field_values;
 
-public enum GenType {
+public enum IntegerGenType {
     RANDOM, RANDOM_RANGE
 }

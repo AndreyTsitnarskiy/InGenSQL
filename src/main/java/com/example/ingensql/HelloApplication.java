@@ -1,16 +1,11 @@
 package com.example.ingensql;
 
 import com.example.ingensql.exeption.ErrorUtils;
-import com.example.ingensql.field_values.GenType;
 import com.example.ingensql.field_values.TypeField;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
