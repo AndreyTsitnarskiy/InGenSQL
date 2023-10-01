@@ -24,17 +24,19 @@ public class IntegerModel extends FieldValue {
         try {
             int s = Integer.valueOf(start);
             int f = Integer.valueOf(finish);
-            if (f - s > count) {
+            if (f - s > 0) {
                 for (int i = 0; i < count; i++) {
                     int num = (int) (Math.random() * ++s) + f;
                     integerList.add(num);
                 }
+            } else {
+                ErrorUtils.showErrorDialog("Ошибка ввода диапазона",
+                        "Cтартовое значение больше конечного\n" +
+                                "Количество создаваемых Insert меньше чем диапазон");
             }
         } catch (Exception e){
-            ErrorUtils.showErrorDialog("Ошибка ввода, возможне ошибки",
-                    "Введено не целое число\n " +
-                            "Cтартовое значение больше конечного\n" +
-                            "Количество создаваемых Insert меньше чем диапазон");
+            ErrorUtils.showErrorDialog("Ошибка ввода",
+                    "Введено не целое число");
         }
         return integerList;
     }

@@ -85,10 +85,7 @@ public class CreateGridPanel {
                     });
                 } else {
                     // Если выбран другой тип, скрываем ComboBox для целочисленных опций
-                    Node intOptionsComboBox = getNodeByRowColumnIndex(finalI, columnIndex + 1, gridPane);
-                    if (intOptionsComboBox != null) {
-                        gridPane.getChildren().remove(intOptionsComboBox);
-                    }
+                    getNodeByRowColumnIndex(finalI, columnIndex, gridPane);
                 }
                 // Другие условия для других типов полей можно добавить аналогичным образом
             });
@@ -114,16 +111,20 @@ public class CreateGridPanel {
         primaryStage.setScene(fieldInputScene);
     }
 
-    private Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
-        Node result = null;
+    private void getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         ObservableList<Node> children = gridPane.getChildren();
         for (Node node : children) {
-            if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
-                result = node;
-                break;
-            }
+            gridPane.getChildren().removeIf(nodes -> {
+                Integer nodeRow = GridPane.getRowIndex(nodes);
+                Integer nodeColumn = GridPane.getColumnIndex(nodes);
+                return nodeRow != null && nodeColumn != null &&
+                        nodeRow.equals(row) && nodeColumn > column;
+            });
         }
-        return result;
+    }
+
+    private void randomRangeButtonsAndField(GridPane gridPane, FieldValue fieldValue, int columnNumber, int finalRow){
+
     }
 
     private void clearGridPane(GridPane gridPane) {
