@@ -1,6 +1,8 @@
 package com.example.ingensql;
 
 import com.example.ingensql.exeption.ErrorUtils;
+import com.example.ingensql.field_values.GenType;
+import com.example.ingensql.field_values.TypeField;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +18,9 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
 
-    CreateGridPanel createGridPanel = new CreateGridPanel();
+    private TypeField typeField;
+    private CreateGridPanel createGridPanel = new CreateGridPanel();
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("SQL Insert Generator");
@@ -37,7 +41,7 @@ public class HelloApplication extends Application {
                 int fieldCount = Integer.parseInt(fieldCountTextField.getText());
                 int insertCount = Integer.parseInt(countInsertGenTextField.getText());
                 String tableName = String.valueOf(tableNameField.getText());
-                createGridPanel = new CreateGridPanel(tableName, fieldCount, insertCount);
+                createGridPanel = new CreateGridPanel(insertCount, fieldCount, tableName, typeField);
                 createGridPanel.initializeFieldInputScene(primaryStage);
             } catch (NumberFormatException e) {
                 // Обработка ошибки ввода некорректного числа
