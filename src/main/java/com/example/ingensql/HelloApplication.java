@@ -33,8 +33,8 @@ public class HelloApplication extends Application {
 
         continueButton.setOnAction(event -> {
             try {
-                int fieldCount = Integer.parseInt(fieldCountTextField.getText());
                 int insertCount = Integer.parseInt(countInsertGenTextField.getText());
+                int fieldCount = Integer.parseInt(fieldCountTextField.getText());
                 String tableName = String.valueOf(tableNameField.getText());
                 createGridPanel = new CreateGridPanel(insertCount, fieldCount, tableName, typeField);
                 createGridPanel.initializeFieldInputScene(primaryStage);
