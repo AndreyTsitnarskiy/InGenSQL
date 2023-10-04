@@ -1,6 +1,5 @@
 package com.example.ingensql.model;
 
-import com.example.ingensql.exeption.ErrorUtils;
 import com.example.ingensql.factory.FieldValue;
 
 import java.util.ArrayList;
@@ -8,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 public class TextModel extends FieldValue {
-    private final int LENGTH = 10; // Длина случайной строки
+    private final int LENGTH = 10;
     private final String CHARSETS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     public TextModel() {
     }
