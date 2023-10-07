@@ -63,7 +63,7 @@ public class CreateGridPanel {
                 } else if (fieldValue instanceof BooleanModel) {
                     addBooleanValueOptions(gridPane, finalI, columnIndex, nameTextField);
                 } else if (fieldValue instanceof DateTimeModel) {
-                    addDateTimeValueOprions(gridPane, finalI, columnIndex, nameTextField);
+                    addDateTimeValueOptions(gridPane, finalI, columnIndex, nameTextField);
                 } else {
                     getNodeByRowColumnIndex(finalI, columnIndex, gridPane);
                 }
@@ -77,8 +77,8 @@ public class CreateGridPanel {
 
         Button generateButton = new Button("Сгенерировать SQL Insert");
         generateButton.setOnAction(event -> {
-            InsertGenerator insertGenerator = new InsertGenerator();
-            String text = String.valueOf(insertGenerator.generateFullListInserts(allMapValues, tablesList, countInsert));
+            InsertGenerator insertGenerator = new InsertGenerator(allMapValues, tablesList, countInsert);
+            String text = insertGenerator.generateFullListInserts();
             System.out.println(text);
         });
 
@@ -270,7 +270,7 @@ public class CreateGridPanel {
         });
     }
 
-    public void addDateTimeValueOprions(GridPane gridPane, int row, int columnIndex, TextField columnName){
+    public void addDateTimeValueOptions(GridPane gridPane, int row, int columnIndex, TextField columnName){
         DateTimeModel dateTimeModel = new DateTimeModel();
         ComboBox<DateTimeGenType> intOptionsComboBox = new ComboBox<>();
         intOptionsComboBox.setItems(FXCollections.observableArrayList(DateTimeGenType.values()));
