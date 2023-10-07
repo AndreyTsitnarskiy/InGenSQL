@@ -1,5 +1,6 @@
 package com.example.ingensql;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class InsertGenerator {
@@ -18,11 +19,16 @@ public class InsertGenerator {
 
     public String generateFullListInserts() {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < countInsert; i++){
+        for (int i = 0; i < countInsert; i++) {
             result.append(startString(tablesList, tableName));
             result.append("(");
-            for (List<?> list : allMapValues)  {
-                result.append(list.get(i)).append(", ");
+            for (List<?> list : allMapValues) {
+                Object value = list.get(i);
+                if (value instanceof String || value instanceof LocalDateTime) {
+                    result.append("'").append(value).append("', ");
+                } else {
+                    result.append(value).append(", ");
+                }
             }
             result.setLength(result.length() - 2); // Удаляем последнюю запятую и пробел
             result.append(");\n");
@@ -41,3 +47,4 @@ public class InsertGenerator {
         return result.toString();
     }
 }
+
