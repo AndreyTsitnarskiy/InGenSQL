@@ -30,10 +30,17 @@ public class InsertGenerator {
                     result.append(value).append(", ");
                 }
             }
-            result.setLength(result.length() - 2); // Удаляем последнюю запятую и пробел
+            result.setLength(result.length() - 2);
             result.append(");\n");
         }
         return result.toString();
+    }
+
+    public void clearAll(List<List<?>> all, List<String> tablesList){
+        for (List<?> list : all) {
+            list.clear();
+        }
+        tablesList.clear();
     }
 
     private String startString(List<String> columnNames, String tableName) {

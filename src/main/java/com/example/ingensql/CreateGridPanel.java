@@ -12,10 +12,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateGridPanel {
 
@@ -79,6 +84,8 @@ public class CreateGridPanel {
             InsertGenerator insertGenerator = new InsertGenerator(allMapValues, tablesList, countInsert, tableName);
             String text = insertGenerator.generateFullListInserts();
             System.out.println(text);
+            insertGenerator.clearAll(allMapValues, tablesList);
+            saveFileToPath(primaryStage, text);
         });
 
         fieldInputVBox = new VBox(10, gridPane, generateButton);
@@ -86,6 +93,27 @@ public class CreateGridPanel {
         ScrollPane scrollPane = new ScrollPane(fieldInputVBox);
         Scene fieldInputScene = new Scene(scrollPane, 800, 600);
         primaryStage.setScene(fieldInputScene);
+    }
+
+    private void saveToFile(File file, String text) {
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(text);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveFileToPath(Stage primaryStage, String text) {
+        primaryStage.setTitle("Сохранить файл");
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Текстовые файлы (*.sql)", "*.sql"));
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+
+        if (file != null) {
+            saveToFile(file, text);
+        }
     }
 
     private void getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
@@ -203,8 +231,8 @@ public class CreateGridPanel {
 
     private void addBooleanValueOptions(GridPane gridPane, int row, int columnIndex, TextField columnName) {
         BooleanModel booleanModel = new BooleanModel();
-        ComboBox<DoubleGenType> intOptionsComboBox = new ComboBox<>();
-        intOptionsComboBox.setItems(FXCollections.observableArrayList(DoubleGenType.values()));
+        ComboBox<BooleanGenType> intOptionsComboBox = new ComboBox<>();
+        intOptionsComboBox.setItems(FXCollections.observableArrayList(BooleanGenType.values()));
         gridPane.add(intOptionsComboBox, columnIndex + 1, row);
 
         intOptionsComboBox.setOnAction(event1 -> {
