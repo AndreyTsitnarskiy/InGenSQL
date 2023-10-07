@@ -1,5 +1,6 @@
 package com.example.ingensql;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -24,8 +25,10 @@ public class InsertGenerator {
             result.append("(");
             for (List<?> list : allMapValues) {
                 Object value = list.get(i);
-                if (value instanceof String || value instanceof LocalDateTime) {
+                if (value instanceof String || value instanceof LocalDateTime || value instanceof LocalDate) {
                     result.append("'").append(value).append("', ");
+                } else if (value == null) {
+                    result.append(" null").append(", ");
                 } else {
                     result.append(value).append(", ");
                 }

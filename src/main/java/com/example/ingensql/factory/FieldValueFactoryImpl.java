@@ -25,6 +25,8 @@ public class FieldValueFactoryImpl implements FieldValueFactory{
                 return new TextModel();
             case DATETIME:
                 return new DateTimeModel();
+            case DATE:
+                return new DateModel();
             default:
                 throw new IllegalArgumentException("Неподдерживаемый тип поля: " + type);
         }

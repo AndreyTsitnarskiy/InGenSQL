@@ -6,6 +6,7 @@ import com.example.ingensql.factory.FieldValueFactoryImpl;
 import com.example.ingensql.field_values.*;
 import com.example.ingensql.field_values.TypeField;
 import com.example.ingensql.model.*;
+import com.example.ingensql.model.DateModel;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,6 @@ public class CreateGridPanel {
     }
 
     public void initializeFieldInputScene(Stage primaryStage) {
-        // Создаем окно для ввода полей и их типов
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);
         gridPane.setVgap(10);
@@ -68,6 +69,10 @@ public class CreateGridPanel {
                     addBooleanValueOptions(gridPane, finalI, columnIndex, nameTextField);
                 } else if (fieldValue instanceof DateTimeModel) {
                     addDateTimeValueOptions(gridPane, finalI, columnIndex, nameTextField);
+                } else if (fieldValue instanceof DateModel) {
+                    addDateValueOptions(gridPane, finalI, columnIndex, nameTextField);
+                } else if (fieldValue instanceof NullModel) {
+                    addNullValueOptions(gridPane, finalI, columnIndex, nameTextField);
                 } else {
                     getNodeByRowColumnIndex(finalI, columnIndex, gridPane);
                 }
@@ -327,6 +332,51 @@ public class CreateGridPanel {
                     tablesList.add(columnName.getText());
                 });
             }
+        });
+    }
+
+    public void addDateValueOptions(GridPane gridPane, int row, int columnIndex, TextField columnName){
+        DateModel dateModel = new DateModel();
+        ComboBox<DateGenType> intOptionsComboBox = new ComboBox<>();
+        intOptionsComboBox.setItems(FXCollections.observableArrayList(DateGenType.values()));
+        gridPane.add(intOptionsComboBox, columnIndex + 1, row);
+
+        intOptionsComboBox.setOnAction(event1 -> {
+            String selectedGenType = String.valueOf(intOptionsComboBox.getValue());
+            int columnIndexThreeColumn = GridPane.getColumnIndex(intOptionsComboBox);
+            Button buttonAction = new Button("Сформировать");
+            if ("RANDOM".contains(selectedGenType)) {
+                getNodeByRowColumnIndex(row, columnIndex + 1, gridPane);
+                gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
+                buttonAction.setOnAction(even -> {
+                    List<LocalDate> dateTimeList = dateModel.getRandom(countInsert);
+                    allMapValues.add(dateTimeList);
+                    tablesList.add(columnName.getText());
+                });
+            } else if ("RANDOM_RANGE".contains(selectedGenType)) {
+                TextField startTextField = new TextField();
+                TextField finishTextField = new TextField();
+                gridPane.add(startTextField, columnIndexThreeColumn + 1, row);
+                gridPane.add(finishTextField, columnIndexThreeColumn + 2, row);
+                gridPane.add(buttonAction, columnIndexThreeColumn + 3, row);
+                buttonAction.setOnAction(even -> {
+                    List<LocalDate> dateTimeList = dateModel.getRandomRange(startTextField.getText(), finishTextField.getText(), countInsert);
+                    allMapValues.add(dateTimeList);
+                    tablesList.add(columnName.getText());
+                });
+            }
+        });
+    }
+
+    public void addNullValueOptions(GridPane gridPane, int row, int columnIndex, TextField columnName){
+        getNodeByRowColumnIndex(row, columnIndex + 1, gridPane);
+        NullModel nullModel = new NullModel();
+        Button buttonAction = new Button("Сформировать");
+        gridPane.add(buttonAction, columnIndex + 1, row);
+        buttonAction.setOnAction(even -> {
+            List<String> nullModelRandom = nullModel.getNullList(countInsert);
+            allMapValues.add(nullModelRandom);
+            tablesList.add(columnName.getText());
         });
     }
 
