@@ -24,8 +24,7 @@ public class CreateGridPanel {
     private int countInsert;
     private String tableName;
     private FieldValueFactory fieldValueFactory;
-    private Set<String> columnName = new TreeSet<>();
-    private Map<String, List<?>> allMapValues = new HashMap<>();
+    private List<List<?>> allMapValues = new ArrayList<>();
     private List<String> tablesList = new ArrayList<>();
 
     public CreateGridPanel(int countInsert, int fieldCount, String tableName, TypeField fieldType) {
@@ -77,7 +76,7 @@ public class CreateGridPanel {
 
         Button generateButton = new Button("Сгенерировать SQL Insert");
         generateButton.setOnAction(event -> {
-            InsertGenerator insertGenerator = new InsertGenerator(allMapValues, tablesList, countInsert);
+            InsertGenerator insertGenerator = new InsertGenerator(allMapValues, tablesList, countInsert, tableName);
             String text = insertGenerator.generateFullListInserts();
             System.out.println(text);
         });
@@ -113,7 +112,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
                 buttonAction.setOnAction(even -> {
                     List<Integer> integerList = integerModel.getRandom(countInsert);
-                    allMapValues.put(columnName.getText(), integerList);
+                    allMapValues.add(integerList);
                     tablesList.add(columnName.getText());
                 });
             } else if ("UNIQUE_RANDOM".contains(selectedGenType)) {
@@ -121,7 +120,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
                 buttonAction.setOnAction(even -> {
                     List<Integer> integerList = integerModel.getRandomUnique(countInsert);
-                    allMapValues.put(columnName.getText(), integerList);
+                    allMapValues.add(integerList);
                     tablesList.add(columnName.getText());
                 });
             } else if ("RANDOM_RANGE".contains(selectedGenType)) {
@@ -132,7 +131,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 3, row);
                 buttonAction.setOnAction(even -> {
                     List<Integer> integerList = integerModel.getRandomRange(startTextField.getText(), finishTextField.getText(), countInsert);
-                    allMapValues.put(columnName.getText(), integerList);
+                    allMapValues.add(integerList);
                     tablesList.add(columnName.getText());
                 });
             } else if ("UNIQUE_RANDOM_RANGE".contains(selectedGenType)) {
@@ -143,7 +142,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 3, row);
                 buttonAction.setOnAction(even -> {
                     List<Integer> integerList = integerModel.getRandomRangeUnique(startTextField.getText(), finishTextField.getText(), countInsert);
-                    allMapValues.put(columnName.getText(), integerList);
+                    allMapValues.add(integerList);
                     tablesList.add(columnName.getText());
                 });
             }
@@ -165,7 +164,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
                 buttonAction.setOnAction(even -> {
                     List<Double> doubleList = doubleModel.getRandom(countInsert);
-                    allMapValues.put(columnName.getText(), doubleList);
+                    allMapValues.add(doubleList);
                     tablesList.add(columnName.getText());
                 });
             } else if ("UNIQUE_RANDOM".contains(selectedGenType)) {
@@ -173,7 +172,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
                 buttonAction.setOnAction(even -> {
                     List<Double> doubleList = doubleModel.getRandomUnique(countInsert);
-                    allMapValues.put(columnName.getText(), doubleList);
+                    allMapValues.add(doubleList);
                     tablesList.add(columnName.getText());
                 });
             } else if ("RANDOM_RANGE".contains(selectedGenType)) {
@@ -184,7 +183,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 3, row);
                 buttonAction.setOnAction(even -> {
                     List<Double> doubleList = doubleModel.getRandomRange(startTextField.getText(), finishTextField.getText(), countInsert);
-                    allMapValues.put(columnName.getText(), doubleList);
+                    allMapValues.add(doubleList);
                     tablesList.add(columnName.getText());
                 });
             } else if ("UNIQUE_RANDOM_RANGE".contains(selectedGenType)) {
@@ -195,7 +194,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 3, row);
                 buttonAction.setOnAction(even -> {
                     List<Double> doubleList = doubleModel.getRandomRangeUnique(startTextField.getText(), finishTextField.getText(), countInsert);
-                    allMapValues.put(columnName.getText(), doubleList);
+                    allMapValues.add(doubleList);
                     tablesList.add(columnName.getText());
                 });
             }
@@ -216,21 +215,21 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
                 buttonAction.setOnAction(even -> {
                     List<Boolean> booleans = booleanModel.getRandom(countInsert);
-                    allMapValues.put(columnName.getText(), booleans);
+                    allMapValues.add(booleans);
                     tablesList.add(columnName.getText());
                 });
             } else if ("ONLY_TRUE".contains(selectedGenType)) {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
                 buttonAction.setOnAction(even -> {
                     List<Boolean> booleans = booleanModel.getAllTrue(countInsert);
-                    allMapValues.put(columnName.getText(), booleans);
+                    allMapValues.add(booleans);
                     tablesList.add(columnName.getText());
                 });
             } else if ("ONLY_FALSE".contains(selectedGenType)) {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 3, row);
                 buttonAction.setOnAction(even -> {
                     List<Boolean> booleans = booleanModel.getAllFalse(countInsert);
-                    allMapValues.put(columnName.getText(), booleans);
+                    allMapValues.add(booleans);
                     tablesList.add(columnName.getText());
                 });
             }
@@ -252,7 +251,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
                 buttonAction.setOnAction(even -> {
                     List<String> textList = textModel.getRandom(countInsert);
-                    allMapValues.put(columnName.getText(), textList);
+                    allMapValues.add(textList);
                     tablesList.add(columnName.getText());
                 });
             } else if ("RANDOM_RANGE".contains(selectedGenType)) {
@@ -263,7 +262,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 3, row);
                 buttonAction.setOnAction(even -> {
                     List<String> textList = textModel.getRandomRange(startTextField.getText(), finishTextField.getText(), countInsert);
-                    allMapValues.put(columnName.getText(), textList);
+                    allMapValues.add(textList);
                     tablesList.add(columnName.getText());
                 });
             }
@@ -285,7 +284,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 1, row);
                 buttonAction.setOnAction(even -> {
                     List<LocalDateTime> dateTimeList = dateTimeModel.getRandom(countInsert);
-                    allMapValues.put(columnName.getText(), dateTimeList);
+                    allMapValues.add(dateTimeList);
                     tablesList.add(columnName.getText());
                 });
             } else if ("RANDOM_RANGE".contains(selectedGenType)) {
@@ -296,7 +295,7 @@ public class CreateGridPanel {
                 gridPane.add(buttonAction, columnIndexThreeColumn + 3, row);
                 buttonAction.setOnAction(even -> {
                     List<LocalDateTime> dateTimeList = dateTimeModel.getRandomRange(startTextField.getText(), finishTextField.getText(), countInsert);
-                    allMapValues.put(columnName.getText(), dateTimeList);
+                    allMapValues.add(dateTimeList);
                     tablesList.add(columnName.getText());
                 });
             }

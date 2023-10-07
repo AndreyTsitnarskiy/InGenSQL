@@ -4,53 +4,40 @@ import java.util.*;
 
 public class InsertGenerator {
 
-    private final Map<String, List<?>> allMapValues;
+    private final List<List<?>> allMapValues;
     private final List<String> tablesList;
     private final int countInsert;
+    private final String tableName;
 
-    public InsertGenerator(Map<String, List<?>> allMapValues, List<String> tablesList, int countInsert) {
+    public InsertGenerator(List<List<?>> allMapValues, List<String> tablesList, int countInsert, String tableName) {
         this.allMapValues = allMapValues;
         this.tablesList = tablesList;
         this.countInsert = countInsert;
+        this.tableName = tableName;
     }
 
     public String generateFullListInserts() {
         StringBuilder result = new StringBuilder();
-
-        for (String tableName : tablesList) {
-            List<?> columnValues = allMapValues.get(tableName);
-            if (columnValues != null) {
-                if (columnValues.isEmpty()) {
-                    continue;
-                }
-
-                StringBuilder insertStatement = new StringBuilder("INSERT INTO " + tableName + " (");
-                for (String columnName : allMapValues.keySet()) {
-                    insertStatement.append(columnName).append(", ");
-                }
-                insertStatement.setLength(insertStatement.length() - 2); // Удаляем последнюю запятую и пробел
-                insertStatement.append(") VALUES ");
-
-                for (int i = 0; i < countInsert; i++) {
-                    insertStatement.append("(");
-                    for (String columnName : allMapValues.keySet()) {
-                        Object value = allMapValues.get(columnName).get(i);
-                        if (value instanceof String) {
-                            insertStatement.append("'").append(value).append("', ");
-                        } else {
-                            insertStatement.append(value).append(", ");
-                        }
-                    }
-                    insertStatement.setLength(insertStatement.length() - 2); // Удаляем последнюю запятую и пробел
-                    insertStatement.append("), ");
-                }
-                insertStatement.setLength(insertStatement.length() - 2); // Удаляем последнюю запятую и пробел
-                insertStatement.append(";\n");
-
-                result.append(insertStatement);
+        for (int i = 0; i < countInsert; i++){
+            result.append(startString(tablesList, tableName));
+            result.append("(");
+            for (List<?> list : allMapValues)  {
+                result.append(list.get(i)).append(", ");
             }
+            result.setLength(result.length() - 2); // Удаляем последнюю запятую и пробел
+            result.append(");\n");
         }
+        return result.toString();
+    }
 
+    private String startString(List<String> columnNames, String tableName) {
+        StringBuilder result = new StringBuilder();
+        result.append("INSERT INTO " + tableName + " (");
+        for (String columnName : columnNames) {
+            result.append(columnName).append(", ");
+        }
+        result.setLength(result.length() - 2); // Удаляем последнюю запятую и пробел
+        result.append(") VALUES ");
         return result.toString();
     }
 }
