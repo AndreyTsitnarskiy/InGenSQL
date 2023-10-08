@@ -9,6 +9,10 @@ import java.util.Random;
 public class TextModel extends FieldValue {
     private final int LENGTH = 10;
     private final String CHARSETS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private final String MIN_STRING = "qwertyuiopasdfghjklzxcvbnm";
+    private final String MAX_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final String ONLY_NUMBER_STRING = "0123456789";
+
     public TextModel() {
     }
 
@@ -29,6 +33,25 @@ public class TextModel extends FieldValue {
             result.add(getRandomStringGetLength(length));
         }
         return result;
+    }
+
+    public List<String> getRandomStringNumbers(int count, int length){
+        List<String> numbers = new ArrayList<>();
+        for (int i = 0; i < count; i++){
+            numbers.add(getRandomNumbers(length));
+        }
+        return numbers;
+    }
+
+    public String getRandomNumbers(int length){
+        Random random = new Random();
+        StringBuilder number = new StringBuilder();
+        for (int i = 0; i < length; i++){
+            int index = random.nextInt(ONLY_NUMBER_STRING.length());
+            char randomChar = ONLY_NUMBER_STRING.charAt(index);
+            number.append(randomChar);
+        }
+        return number.toString();
     }
 
     public String getRandomStringGetLength(int length){
